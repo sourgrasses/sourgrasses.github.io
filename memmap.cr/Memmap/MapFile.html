@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.25.0">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/sourgrasses/memmap.cr">
+  <title>Memmap::MapFile - github.com/sourgrasses/memmap.cr</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/sourgrasses/memmap.cr/Memmap" data-name="memmap">
+      <a href="../Memmap.html">Memmap</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/sourgrasses/memmap.cr/Memmap/Flag" data-name="memmap::flag">
+      <a href="../Memmap/Flag.html">Flag</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/sourgrasses/memmap.cr/Memmap/MapFile" data-name="memmap::mapfile">
+      <a href="../Memmap/MapFile.html">MapFile</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/sourgrasses/memmap.cr/Memmap/Prot" data-name="memmap::prot">
+      <a href="../Memmap/Prot.html">Prot</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Memmap::MapFile
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Memmap/MapFile.html">Memmap::MapFile</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>A memory mapped buffer backed by a specified file.</p>
+
+<p>The safest way to access the data mapped is through the <code><a href="../Memmap/MapFile.html#value%3ASlice%28UInt8%29-instance-method">#value</a></code> getter, which returns a <code>Slice(UInt8)</code>.
+Any access through the raw pointer interface can cause segmentation faults or undefined behavior unless you're really careful, 
+while accessing the buffer through a <code>Slice</code> allows you to reap the potential benefits of using <code>mmap</code> without shooting
+yourself in the foot because of its bound checks.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L26" target="_blank">memmap/unix.cr</a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>Constant Summary</h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="DEFAULT_PERM">
+        <strong>DEFAULT_PERM</strong> = <code><span class="t">File</span><span class="t">::</span><span class="t">Permissions</span>.<span class="k">new</span>(<span class="n">420</span>)</code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="PAGE_SIZE">
+        <strong>PAGE_SIZE</strong> = <code>(<span class="t">LibC</span>.sysconf(<span class="t">LibC</span><span class="t">::</span><span class="t">SC_PAGESIZE</span>)).to_u64</code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28filepath%3AString%2Cmode%3D%26quot%3Br%26quot%3B%2Coffset%3ALibC%3A%3ASizeT%3D0%29-class-method" class="signature"><strong>.new</strong>(filepath : String, mode = <span class="s">&quot;r&quot;</span>, offset : LibC::SizeT = <span class="n">0</span>)</a>
+        
+          <div class="summary"><p>Create an instance of <code><a href="../Memmap/MapFile.html">MapFile</a></code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#as_ptr%3APointer%28UInt8%29-instance-method" class="signature"><strong>#as_ptr</strong> : Pointer(UInt8)</a>
+        
+          <div class="summary"><p>Returns the buffer as a raw <code>Pointer(UInt8)</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#close-instance-method" class="signature"><strong>#close</strong></a>
+        
+          <div class="summary"><p>Force the map to close before the GC runs <code>finalize</code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#flush-instance-method" class="signature"><strong>#flush</strong></a>
+        
+          <div class="summary"><p>Flush changes made in the map back into the filesystem.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#make_read_only-instance-method" class="signature"><strong>#make_read_only</strong></a>
+        
+          <div class="summary"><p>Call <code>mprotect</code> to change the 'prot' flags to be read-only</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#make_writable-instance-method" class="signature"><strong>#make_writable</strong></a>
+        
+          <div class="summary"><p>Call <code>mprotect</code> to change the 'prot' flags to allow reading and writing</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s-instance-method" class="signature"><strong>#to_s</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#value%3ASlice%28UInt8%29-instance-method" class="signature"><strong>#value</strong> : Slice(UInt8)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write%28filepath%3AString%2Cappendix%3ABytes%29%3ASymbol-instance-method" class="signature"><strong>#write</strong>(filepath : String, appendix : Bytes) : Symbol</a>
+        
+          <div class="summary"><p>Append a <code>Slice(UInt8)</code>/<code>Bytes</code> to a mapped file by writing the already-mapped buffer concatenated with the new bytes to a newly allocated mapped buffer backed by a new file.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(filepath:String,mode=&amp;quot;r&amp;quot;,offset:LibC::SizeT=0)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(filepath : String, mode = <span class="s">&quot;r&quot;</span>, offset : LibC::SizeT = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#new%28filepath%3AString%2Cmode%3D%26quot%3Br%26quot%3B%2Coffset%3ALibC%3A%3ASizeT%3D0%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Create an instance of <code><a href="../Memmap/MapFile.html">MapFile</a></code>.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="as_ptr:Pointer(UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>as_ptr</strong> : Pointer(UInt8)
+
+        <a class="method-permalink" href="#as_ptr%3APointer%28UInt8%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Returns the buffer as a raw <code>Pointer(UInt8)</code>. This is unsafe, obviously.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="close-instance-method">
+      <div class="signature">
+        
+        def <strong>close</strong>
+
+        <a class="method-permalink" href="#close-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Force the map to close before the GC runs <code>finalize</code></p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L100" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="flush-instance-method">
+      <div class="signature">
+        
+        def <strong>flush</strong>
+
+        <a class="method-permalink" href="#flush-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Flush changes made in the map back into the filesystem. Synchronous/blocking version.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L108" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="make_read_only-instance-method">
+      <div class="signature">
+        
+        def <strong>make_read_only</strong>
+
+        <a class="method-permalink" href="#make_read_only-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Call <code>mprotect</code> to change the 'prot' flags to be read-only</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L117" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="make_writable-instance-method">
+      <div class="signature">
+        
+        def <strong>make_writable</strong>
+
+        <a class="method-permalink" href="#make_writable-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Call <code>mprotect</code> to change the 'prot' flags to allow reading and writing</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L123" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>
+
+        <a class="method-permalink" href="#to_s-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L128" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="value:Slice(UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>value</strong> : Slice(UInt8)
+
+        <a class="method-permalink" href="#value%3ASlice%28UInt8%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write(filepath:String,appendix:Bytes):Symbol-instance-method">
+      <div class="signature">
+        
+        def <strong>write</strong>(filepath : String, appendix : Bytes) : Symbol
+
+        <a class="method-permalink" href="#write%28filepath%3AString%2Cappendix%3ABytes%29%3ASymbol-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Append a <code>Slice(UInt8)</code>/<code>Bytes</code> to a mapped file by writing the already-mapped buffer concatenated
+with the new bytes to a newly allocated mapped buffer backed by a new file.
+This relies on <code>ftruncate</code> and some pointer arithmetic to work correctly, so tread carefully.
+If you point it in the wrong direction it will eat your data.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L136" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
