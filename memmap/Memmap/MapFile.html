@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.25.0">
+<meta name="generator" content="Crystal Docs 0.26.1">
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,7 @@
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
-      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
     </div>
 
     <div class="repository-links">
@@ -105,7 +105,9 @@ yourself in the foot because of its bound checks.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L26" target="_blank">memmap/unix.cr</a>
+      <a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L26" target="_blank">
+        memmap/unix.cr
+      </a>
     
     <br/>
   
@@ -151,6 +153,11 @@ yourself in the foot because of its bound checks.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#%3C%3C%28appendix%3ABytes%29-instance-method" class="signature"><strong>#<<</strong>(appendix : Bytes)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#as_ptr%3APointer%28UInt8%29-instance-method" class="signature"><strong>#as_ptr</strong> : Pointer(UInt8)</a>
         
           <div class="summary"><p>Returns the buffer as a raw <code>Pointer(UInt8)</code>.</p></div>
@@ -182,6 +189,18 @@ yourself in the foot because of its bound checks.</p>
         <a href="#make_writable-instance-method" class="signature"><strong>#make_writable</strong></a>
         
           <div class="summary"><p>Call <code>mprotect</code> to change the 'prot' flags to allow reading and writing</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#push%28appendix%3ABytes%29-instance-method" class="signature"><strong>#push</strong>(appendix : Bytes)</a>
+        
+          <div class="summary"><p>Append a <code>Slice(UInt8)</code>/<code>Bytes</code> to a mapped file by calling <code>ftruncate</code> on the mapped file's fdesc, <code>lseek</code>ing to the 'old' end of the file, writing the <code>Bytes</code> to the file, and either calling <code>mremap</code> if we're on Linux or <code>munmap</code> and then <code>mmap</code> if we're on macOS/FreeBSD/whatever.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read%28slice%3ABytes%29-instance-method" class="signature"><strong>#read</strong>(slice : Bytes)</a>
         
       </li>
     
@@ -248,7 +267,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L44" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -259,6 +278,22 @@ yourself in the foot because of its bound checks.</p>
 
 
   <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="&lt;&lt;(appendix:Bytes)-instance-method">
+      <div class="signature">
+        
+        def <strong><<</strong>(appendix : Bytes)
+
+        <a class="method-permalink" href="#%3C%3C%28appendix%3ABytes%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L87" target="_blank">View source</a>]
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="as_ptr:Pointer(UInt8)-instance-method">
       <div class="signature">
@@ -273,7 +308,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L134" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -291,7 +326,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L100" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L139" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -309,7 +344,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L108" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L147" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -327,7 +362,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L117" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L156" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -345,7 +380,43 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L123" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L162" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="push(appendix:Bytes)-instance-method">
+      <div class="signature">
+        
+        def <strong>push</strong>(appendix : Bytes)
+
+        <a class="method-permalink" href="#push%28appendix%3ABytes%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Append a <code>Slice(UInt8)</code>/<code>Bytes</code> to a mapped file by calling <code>ftruncate</code> on the mapped file's
+fdesc, <code>lseek</code>ing to the 'old' end of the file, writing the <code>Bytes</code> to the file, and either
+calling <code>mremap</code> if we're on Linux or <code>munmap</code> and then <code>mmap</code> if we're on macOS/FreeBSD/whatever.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L94" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read(slice:Bytes)-instance-method">
+      <div class="signature">
+        
+        def <strong>read</strong>(slice : Bytes)
+
+        <a class="method-permalink" href="#read%28slice%3ABytes%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L171" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -361,7 +432,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L167" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -377,7 +448,7 @@ yourself in the foot because of its bound checks.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L41" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -398,7 +469,7 @@ If you point it in the wrong direction it will eat your data.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/sourgrasses/memmap.cr/blob/e818cc8a63ead19832caf34f1e07401f3ab9a6b9/src/memmap/unix.cr#L136" target="_blank">View source</a>]
+          [<a href="https://github.com/sourgrasses/memmap.cr/blob/c8ea71fd80e4cb4b2c30d490bbe1d2d0dbd7744e/src/memmap/unix.cr#L181" target="_blank">View source</a>]
         
       </div>
     </div>

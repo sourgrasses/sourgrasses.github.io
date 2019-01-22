@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.25.0">
+<meta name="generator" content="Crystal Docs 0.26.1">
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,7 @@
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
-      <input type="search" class="search-input" placeholder="Search..." spellcheck="false">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
     </div>
 
     <div class="repository-links">
@@ -70,9 +70,12 @@
 <div class="main-content">
 <h1>memmap.cr</h1>
 
+<p><a href="https://travis-ci.org/sourgrasses/memmap.cr/" target="_blank"><img src="https://travis-ci.org/sourgrasses/memmap.cr.svg?branch=master" alt="Build Status"/></a>
+<a href="https://sourgrasses.github.io/memmap/" target="_blank"><img src="https://img.shields.io/badge/Crystal-Docs-8A2BE2.svg" alt="Crystal Docs"/></a></p>
+
 <p>Little lib to make using <a href="http://man7.org/linux/man-pages/man2/mmap.2.html" target="_blank"><code>mmap()</code></a> and related system calls relatively easy and hopefully fairly idiomatic.</p>
 
-<p>Right now this only handles fixed-size maps. If you need to append something to the file you have mapped you can call <code>MapFile.write</code> to <code>ftruncate</code> a file, create a new mapped buffer of the fixed size, and <code>memcpy</code> from the read buffer and the <code>Slice</code> to be appended into the second buffer.</p>
+<p>Currently you can use either the <code><<</code> operator/<code>push</code> function to append <code>Bytes</code> to a mapped file, which calls <code>ftruncate</code> to expand te file size to fit the new data, advances the seek pointer to the old end of the file, writes whatever has been pushed, and calls <code>mremap</code> on Linux or simply <code>munmap</code> and then <code>mmap</code> elsewhere, or, if you prefer to copy the contents of the mapped file to a new mapped file with the new <code>Bytes</code> appended, you can call <code>MapFile.write</code> to <code>ftruncate</code> a file, create a new mapped buffer of the fixed size, and <code>memcpy</code> from the read buffer and the <code>Bytes</code> to be appended into the second buffer.</p>
 
 <p>Calling the instance method <code>value</code> gets a <code>Bytes</code>/<code>Slice(UInt8)</code> that can be read from and manipulated in place safely.</p>
 
@@ -90,20 +93,22 @@
 
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;memmap&quot;</span>
 
-<span class="c"># Maps a file and prints it to stdout</span>
+<span class="c"># Maps a file named &quot;test.txt&quot; and prints it to stdout</span>
 file <span class="o">=</span> <span class="t">Memmap</span><span class="t">::</span><span class="t">MapFile</span>.<span class="k">new</span>(<span class="s">&quot;test.txt&quot;</span>)
 file_string <span class="o">=</span> <span class="t">String</span>.<span class="k">new</span>(file.value)
 puts file_string
 
-<span class="c"># Maps a file named &quot;test.txt&quot; and replaces every character with &#39;j&#39;</span>
+<span class="c"># Maps a file and replaces every character with &#39;j&#39;</span>
 file2 <span class="o">=</span> <span class="t">Memmap</span><span class="t">::</span><span class="t">MapFile</span>.<span class="k">new</span>(<span class="s">&quot;test.txt&quot;</span>, mode <span class="o">=</span> <span class="s">&quot;r+&quot;</span>)
 file2.value.map! { <span class="o">|</span>v<span class="o">|</span> <span class="n">106</span>.to_u8 }
 file2.flush()
 
-<span class="c"># Maps a file and then appends some ! chars to it by writing to a new mapped buffer</span>
-file3 <span class="o">=</span> <span class="t">Memmap</span><span class="t">::</span><span class="t">MapFile</span>.<span class="k">new</span>(<span class="s">&quot;test.txt&quot;</span>)
-appendix <span class="o">=</span> <span class="t">Slice</span>(<span class="t">Uint8</span>).<span class="k">new</span>(<span class="n">4</span>, <span class="n">33</span>)
-file3.write(<span class="s">&quot;test2.txt&quot;</span>, appendix)</code></pre>
+<span class="c"># Maps a file and then appends a string to it</span>
+<span class="t">File</span>.write(<span class="s">&quot;test.txt&quot;</span>, <span class="s">&quot;here are a bunch of bytes yet again&quot;</span>)
+
+file <span class="o">=</span> <span class="t">Memmap</span><span class="t">::</span><span class="t">MapFile</span>.<span class="k">new</span>(<span class="s">&quot;test.txt&quot;</span>, mode<span class="o">=</span><span class="s">&quot;r+&quot;</span>)
+appendix <span class="o">=</span> <span class="s">&quot; and more!&quot;</span>.to_slice
+file <span class="o">&lt;&lt;</span> appendix</code></pre>
 
 <h2>Contributing</h2>
 
